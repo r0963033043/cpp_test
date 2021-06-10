@@ -3,10 +3,10 @@
 ## Introduction
 
 ### Source Code
-`src` folder    : source `.cpp` or `.c` file
-`include` folder: source `.h` file
-`util` folder   : main project file
-`test` folder   : test partial function
+`src` folder    : source `.cpp` or `.c` file  
+`include` folder: source `.h` file  
+`util` folder   : main project file  
+`test` folder   : test partial function  
 
 ### Executable file
 place in `bin` folder

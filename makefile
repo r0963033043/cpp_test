@@ -29,45 +29,31 @@ SRCS = $(wildcard $(SRC)/*.cpp)
 OBJS = $(patsubst $(SRC)/%.cpp, $(OBJ)/%.o, $(SRCS))
 
 
-BUILD_UTIL1 = util1
-#UTIL1_SRC = $(UTIL)/util1
-UTIL1_OBJ = $(OBJ)/util1-obj
-#UTIL1_SRCS = $(wildcard $(UTIL1_SRC)/*.cpp)
-#UTIL1_OBJS = $(patsubst $(UTIL1_SRC)/%.cpp, $(UTIL1_OBJ)/%.o, $(UTIL1_SRCS))
-UTIL1_OBJS = $(patsubst $(SRC)/%.cpp, $(UTIL1_OBJ)/%.o, $(SRCS))
-
-
-TEST_OBJ = $(OBJ)/test-obj
-
 # BUILD_TARGET
+BUILD_UTIL1 = util1
 BUILD_TEST1 = test1
 BUILD_TEST2 = test2
 
+# main source
+UTIL1_SRC = $(UTIL)/util1
 TEST1_SRC = test1.cpp
 TEST2_SRC = test2.cpp
 
-# Bug
-# Cannot build more then 2 main in one obj file
-#TEST_SRCS = $(wildcard $(TEST)/*.cpp)
-#TEST_OBJS = $(patsubst $(TEST)/%.cpp, $(TEST_OBJ)/%.o, $(TEST_SRCS))
 
-## TEST1_SRC = $(TEST)
-##TEST1_OBJ = $(OBJ)/test-obj
+UTIL1_OBJ = $(OBJ)/util1-obj
+UTIL1_SRCS = $(wildcard $(UTIL1_SRC)/*.cpp)
+UTIL1_OBJS = $(patsubst $(UTIL1_SRC)/%.cpp, $(UTIL1_OBJ)/%.o, $(UTIL1_SRCS))
+
+TEST_OBJ = $(OBJ)/test-obj
 TEST1_SRCS = $(wildcard $(TEST)/$(TEST1_SRC))
-TEST1_OBJS = $(patsubst $(TEST)/%.cpp, $(TEST_OBJ)/%.o, $(TEST1_SRCS))
 TEST2_SRCS = $(wildcard $(TEST)/$(TEST2_SRC))
+TEST1_OBJS = $(patsubst $(TEST)/%.cpp, $(TEST_OBJ)/%.o, $(TEST1_SRCS))
 TEST2_OBJS = $(patsubst $(TEST)/%.cpp, $(TEST_OBJ)/%.o, $(TEST2_SRCS))
-##TEST1_SRCS = $(wildcard $(TEST)/$(TEST1_SRC) $(SRC)/*.cpp)
-##TEST1_SRCS = $(wildcard $(TEST)/$(TEST1_SRC) $(SRCS))
-##TEST1_OBJS = $(patsubst $(SRC)/%.cpp, $(TEST1_OBJ)/%.o, $(TEST1_SRCS))
-##TEST1_OBJS = $(patsubst $(TEST1_SRC) $(SRC)/%.cpp, $(TEST1_OBJ)/%.o, $(TEST1_SRCS))
 
 
 
-#	$(BUILD_UTIL1) \
-
-# BUILD_TARGET
 all: dir-tree \
+	$(BUILD_UTIL1) \
 	$(BUILD_TEST1) \
 	$(BUILD_TEST2)
 
@@ -82,19 +68,9 @@ all: dir-tree \
 #   @$(CXX) -shared -o $(LIB)/$(xxx_TARGET) $^
 
 
-#$(BUILD_TARGET): $(OBJS)
-#$(BUILD_UTIL1): $(OBJS) $(UTIL1)/util1.cpp
-#	@echo "[BUILD] util1"
-#	#@$(CXX) $(CXXFLAGS) $(LINK_OPTS) -o $(BIN)/$@ $^
-
-##$(BUILD_UTIL1): $(UTIL1_OBJS)
-##	@echo "[BUILD] util1"
-##	@$(CXX) $(CXXFLAGS) -o $(BIN)/$@ $^
-
-#$(BUILD_TEST1): $(OBJS) $(TEST1_SRC)
-#$(BUILD_TEST1): $(OBJS) $(TEST_OBJS)
-#	@echo "[BUILD] test1"
-#	@$(CXX) $(CXXFLAGS) -o $(BIN)/$@ $^
+$(BUILD_UTIL1): $(OBJS) $(UTIL1_OBJS)
+	@echo "[BUILD] util1"
+	@$(CXX) $(CXXFLAGS) -o $(BIN)/$@ $^
 
 $(BUILD_TEST1): $(OBJS) $(TEST1_OBJS)
 	@echo "[BUILD] test1"
@@ -116,25 +92,14 @@ $(OBJ)/%.o: $(SRC)/%.cpp
 	@$(CXX) $(CXXFLAGS) -o $@ -c $<
 
 
-##$(UTIL1_OBJ)/%.o: $(SRC)/%.cpp $(UTIL)/%.cpp
-##	@echo [COMPILE] $(notdir  $@)
-##	#@$(CXX) $(CXXFLAGS) $(MACROS) $(LINK_OPTS) -o $@ -c $<
-##	@$(CXX) $(CXXFLAGS) -o $@ -c $<
+$(UTIL1_OBJ)/%.o: $(UTIL1_SRC)/%.cpp
+	@echo [COMPILE] $(notdir  $@)
+	@$(CXX) $(CXXFLAGS) -o $@ -c $<
 
-
-#$(TEST1_OBJ)/%.o: $(SRC)/%.cpp $(TEST1_SRC)
 $(TEST_OBJ)/%.o: $(TEST)/%.cpp
 	@echo [COMPILE] $(notdir  $@)
 	@$(CXX) $(CXXFLAGS) -o $@ -c $<
 
-#$(TEST1_OBJ)/%.o: $(TEST)/%.cpp
-##$(TEST1_OBJ)/%.o: $(TEST)/$(TEST1_SRC)
-#	@echo [COMPILE] $(notdir  $@)
-#	@$(CXX) $(CXXFLAGS) -o $@ -c $<
-#
-#$(TEST2_OBJ)/%.o: $(TEST)/%.cpp
-#	@echo [COMPILE] $(notdir  $@)
-#	@$(CXX) $(CXXFLAGS) -o $@ -c $<
 
 
 dir-tree:
