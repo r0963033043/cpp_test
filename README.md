@@ -56,7 +56,7 @@ Format: `$(patsubst <pattern>, <replacement>, <text>)`
 Description: check if `<test>` match `<pattern>`, and replace `<test>` file extension from `<pattern>` to `<replacement>`  
 Usage: `$(patsubst %.cpp, %.o, $(dir))`  
 Example:  
-  `$(patsubst %.cpp, %.o, ./src/*.cpp)`: 把`src`中的變數符合字尾是`.cpp`的全部替換成`.o`    
+  `$(patsubst %.cpp, %.o, ./src/*.cpp)`: 把`src/*.cpp`中的變數符合字尾是`.cpp`的全部替換成`.o`    
 
 
 Build Test1
