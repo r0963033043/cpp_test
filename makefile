@@ -75,7 +75,6 @@ $(BUILD_UTIL1): $(OBJS) $(UTIL1_OBJS)
 $(BUILD_TEST1): $(OBJS) $(TEST1_OBJS)
 	@echo "[BUILD] test1"
 	@$(CXX) $(CXXFLAGS) -o $(BIN)/$@ $^
-	#@$(CXX) $(CXXFLAGS) -o $(BIN)/$@ $^ $(LINK_OPTS)
 
 $(BUILD_TEST2): $(OBJS) $(TEST2_OBJS)
 	@echo "[BUILD] test2"
