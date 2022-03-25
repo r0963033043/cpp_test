@@ -34,6 +34,7 @@ BUILD_UTIL1 = util1
 
 BUILD_AM = arrMat
 BUILD_BR = binRev
+BUILD_LRU = lruCache
 BUILD_TEST1 = test1
 BUILD_TEST2 = test2
 BUILD_TEST3 = test3
@@ -45,6 +46,7 @@ UTIL1_SRC = $(UTIL)/util1
 
 AM_SRC = ArrayMatching.cpp
 BR_SRC = BinaryReversal.cpp
+LRU_SRC = LRUCache.cpp
 TEST1_SRC = test1.cpp
 TEST2_SRC = test2.cpp
 TEST3_SRC = test3.cpp
@@ -57,10 +59,12 @@ UTIL1_SRCS = $(wildcard $(UTIL1_SRC)/*.cpp)
 UTIL1_OBJS = $(patsubst $(UTIL1_SRC)/%.cpp, $(UTIL1_OBJ)/%.o, $(UTIL1_SRCS))
 
 TEST_OBJ = $(OBJ)/test-obj
-AR_SRCS = $(wildcard $(TEST)/$(AR_SRC))
-AR_OBJS = $(patsubst $(TEST)/%.cpp, $(TEST_OBJ)/%.o, $(AR_SRCS))
+AM_SRCS = $(wildcard $(TEST)/$(AM_SRC))
+AM_OBJS = $(patsubst $(TEST)/%.cpp, $(TEST_OBJ)/%.o, $(AM_SRCS))
 BR_SRCS = $(wildcard $(TEST)/$(BR_SRC))
 BR_OBJS = $(patsubst $(TEST)/%.cpp, $(TEST_OBJ)/%.o, $(BR_SRCS))
+LRU_SRCS = $(wildcard $(TEST)/$(LRU_SRC))
+LRU_OBJS = $(patsubst $(TEST)/%.cpp, $(TEST_OBJ)/%.o, $(LRU_SRCS))
 TEST1_SRCS = $(wildcard $(TEST)/$(TEST1_SRC))
 TEST1_OBJS = $(patsubst $(TEST)/%.cpp, $(TEST_OBJ)/%.o, $(TEST1_SRCS))
 TEST2_SRCS = $(wildcard $(TEST)/$(TEST2_SRC))
@@ -78,6 +82,7 @@ all: dir-tree \
 	$(BUILD_UTIL1) \
 	$(BUILD_AM) \
 	$(BUILD_BR) \
+	$(BUILD_LRU) \
 	$(BUILD_TEST1) \
 	$(BUILD_TEST2) \
 	$(BUILD_TEST3) \
@@ -105,6 +110,10 @@ $(BUILD_AM): $(OBJS) $(AM_OBJS)
 
 $(BUILD_BR): $(OBJS) $(BR_OBJS)
 	@echo "[BUILD] binRev"
+	@$(CXX) $(CXXFLAGS) -o $(BIN)/$@ $^
+
+$(BUILD_LRU): $(OBJS) $(LRU_OBJS)
+	@echo "[BUILD] lruCache"
 	@$(CXX) $(CXXFLAGS) -o $(BIN)/$@ $^
 
 $(BUILD_TEST1): $(OBJS) $(TEST1_OBJS)
