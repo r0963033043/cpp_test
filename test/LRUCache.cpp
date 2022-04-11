@@ -1,34 +1,38 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <algorithm>   // std::find
+#include <algorithm>
 using namespace std;
 
 string LRUCache(string strArr[], int arrLength) {
   // code goes here  
-
   string *str;
   vector<string> ret;
   int len = 0;
 
   for(int i=0; i<arrLength; i++){
     str = &(strArr[i]);
-    if(find(ret.begin(), ret.end(), *str) != ret.end()){
-      // move previous one to back
-      // erase finding one, than add to the back
-      ret.erase(find(ret.begin(), ret.end(), *str));
-      ret.push_back(*str);
-    } else{
-      // add first appear char
-      ret.push_back(*str);
-      len++;
+
+    vector<string>::iterator it = find(ret.begin(), ret.end(), *str);
+    if(it != ret.end()){
+      // erase previous appear one
+      ret.erase(it);
+      len--;
     }
+    // add last appear to back
+    ret.push_back(*str);
+    len++;
   }
 
   strArr[0] = "";
-  for(int i=len-5; i<len-1; i++){
-    if(ret[i] != "")
-      strArr[0] += ret[i] + ", ";
+
+  int index = 0;
+  if(len > 5){
+    index = len -5;
+  }
+
+  for(int i=index; i<len-1; i++){
+    strArr[0] += ret[i] + "-";
   }
   strArr[0] += ret[len-1];
 
