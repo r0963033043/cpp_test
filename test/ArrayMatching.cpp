@@ -1,44 +1,45 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <algorithm>
 using namespace std;
 
 string ArrayMatching(string strArr[], int arrLength) {
   // code goes here
-
   string *str;
 
+  // remove header "["
   for(int i=0; i<arrLength; i++){
     str = &(strArr[i]);
     str->replace(str->find('['), 1, "");
   }
 
-
   string pattern = ", ";
   string::size_type begin, end;
 
+  vector<int> sum;
   int num = 0;
   int index = 0;
-  int len = 0;
-  vector<int> sum;
+  int len=0;
 
   for(int i=0; i<arrLength; i++){
     index = 0;
 
     str = &(strArr[i]);
-    end = str->find(pattern);
     begin = 0;
+    end = str->find(pattern);
     while(end != string::npos){
       if(end - begin != 0){
-	// split string to int by ", "
+        // vector item that need to be initialized: 
+        // 1. first line(A[0])
+        // 2. or string larger than before
+        if(i == 0 || index > len)
+          sum.push_back(0);
+        
+        // split string by ", ", than change type to int
         num = stoi(str->substr(begin, end-begin));
-
-	// first string initial; string length larger than before initial
-	if(i == 0 || index > len)
-    	  sum.push_back(0);
-	// get current position then add
-	sum.at(index) += num;
-	index++;
+        sum.at(index) += num;
+        index++;
       }
       begin = end + pattern.size();
       end = str->find(pattern, begin);
@@ -46,21 +47,21 @@ string ArrayMatching(string strArr[], int arrLength) {
 
     // last num
     if(begin != str->length()){
-        num = stoi(str->substr(begin, end-begin));
-	sum.push_back(0);
-	sum.at(index) += num;
+      num = stoi(str->substr(begin, end-begin));
+      sum.push_back(0);
+      sum.at(index) += num;
     }
-    len = index;
 
+    if(len < index)
+      len = index;
   }
 
-
-  strArr[0] = "[";
+  strArr[0] = "";
   for(int i=0; i<len; i++){
-    strArr[0] += to_string(sum[i]) + ", ";
+    strArr[0] += to_string(sum[i]) + "-";
   }
   strArr[0] += to_string(sum[len]);
-  strArr[0] += "]";
+
 
   return strArr[0];
 }
